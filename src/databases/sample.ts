@@ -49,5 +49,15 @@ export const INIT_PERMISSIONS = [
   { name: "Create Resume", apiPath: "/api/v1/resumes", method: "POST", module: "RESUMES" },
   { name: "Update Resume", apiPath: "/api/v1/resumes/:id", method: "PATCH", module: "RESUMES" },
   { name: "Delete Resume", apiPath: "/api/v1/resumes/:id", method: "DELETE", module: "RESUMES" },
-  { name: "Get Resume by User", apiPath: "/api/v1/resumes/by-user", method: "POST", module: "RESUMES" }
+  { name: "Get Resume by User", apiPath: "/api/v1/resumes/by-user", method: "POST", module: "RESUMES" },
+
+  // 📊 Analytics Module
+  { name: "Get Analytics", apiPath: "/api/v1/analytics", method: "GET", module: "ANALYTICS" },
+  { name: "Get Analytics Dashboard", apiPath: "/api/v1/analytics/dashboard", method: "GET", module: "ANALYTICS" },
+  { name: "Get Analytics Stats Events", apiPath: "/api/v1/analytics/stats/events", method: "GET", module: "ANALYTICS" },
+  { name: "Get Analytics Stats Daily", apiPath: "/api/v1/analytics/stats/daily", method: "GET", module: "ANALYTICS" },
+  { name: "Get Analytics Stats Users", apiPath: "/api/v1/analytics/stats/users", method: "GET", module: "ANALYTICS" },
+  { name: "Track Analytics Event", apiPath: "/api/v1/analytics/track", method: "POST", module: "ANALYTICS" },
+  { name: "Create Analytics", apiPath: "/api/v1/analytics", method: "POST", module: "ANALYTICS" },
+  { name: "Delete Analytics", apiPath: "/api/v1/analytics/:id", method: "DELETE", module: "ANALYTICS" }
 ];

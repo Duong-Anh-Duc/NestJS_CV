@@ -4,6 +4,7 @@ import aqp from 'api-query-params';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import mongoose from 'mongoose';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import { AnalyticsService } from 'src/analytics/analytics.service';
 import { USER_ROLE } from 'src/databases/sample';
 import { Role, RoleDocument } from 'src/roles/schemas/role.schema';
 import { CreateUserDto, RegisterUserDto } from './dto/create-user.dto';
@@ -13,7 +14,8 @@ import { IUser } from './user.interface';
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel : SoftDeleteModel<UserDocument>,
-@InjectModel(Role.name) private roleModel : SoftDeleteModel<RoleDocument>){}
+@InjectModel(Role.name) private roleModel : SoftDeleteModel<RoleDocument>,
+private analyticsService: AnalyticsService){}
    hashPassWord = (password : string) => {
     const salt = genSaltSync(10);
     const hash = hashSync(password, salt)
@@ -26,6 +28,19 @@ export class UsersService {
       throw new BadRequestException(`Email : ${createUserDto.email} đã tồn tại trên hệ thống!`);
     }
     let user = await this.userModel.create({...createUserDto, password : hashPassWord})
+    
+    // Track user creation event
+    await this.analyticsService.trackEvent({
+      event_type: 'USER_CREATED',
+      resource_id: user._id.toString(),
+      user_id: User?._id?.toString(),
+      metadata: {
+        email: createUserDto.email,
+        name: createUserDto.name,
+        role: createUserDto.role
+      }
+    });
+    
     return user;
   }
   async update( updateUserDto: UpdateUserDto, User : IUser) {
@@ -35,6 +50,17 @@ export class UsersService {
       _id : User._id,
       email : User.email
     }})
+    
+    // Track user update event
+    await this.analyticsService.trackEvent({
+      event_type: 'USER_UPDATED',
+      resource_id: updateUserDto._id,
+      user_id: User._id.toString(),
+      metadata: {
+        updatedFields: Object.keys(updateUserDto)
+      }
+    });
+    
     return user;
   }
   async register(registerUserDto: RegisterUserDto){
@@ -44,7 +70,19 @@ export class UsersService {
       throw new BadRequestException(`Email : ${registerUserDto.email} đã tồn tại trên hệ thống!`);
     }
     const userRole = await this.roleModel.findOne({name : USER_ROLE})
-    return this.userModel.create({...registerUserDto, password : hashPassWord, role : userRole?._id})
+    const newUser = await this.userModel.create({...registerUserDto, password : hashPassWord, role : userRole?._id})
+    
+    // Track user registration event
+    await this.analyticsService.trackEvent({
+      event_type: 'USER_REGISTERED',
+      resource_id: newUser._id.toString(),
+      metadata: {
+        email: registerUserDto.email,
+        name: registerUserDto.name
+      }
+    });
+    
+    return newUser;
   }
   async remove(id: string, User : IUser) {
     if(!mongoose.Types.ObjectId.isValid(id)) return 'not found user'

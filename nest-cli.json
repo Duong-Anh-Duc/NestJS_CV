@@ -4,7 +4,17 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "assets": ["mail/templates/**/*"],
+    "assets": [
+      "mail/templates/**/*",
+      {
+        "include": "../public/**/*",
+        "outDir": "./dist"
+      },
+      {
+        "include": "../views/**/*", 
+        "outDir": "./dist"
+      }
+    ],
     "watchAssets": true
   }
 }

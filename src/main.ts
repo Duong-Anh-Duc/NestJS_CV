@@ -14,13 +14,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService)
   const reflector = app.get(Reflector)
  app.useGlobalGuards(new JwtAuthGuard(reflector))
-  // Serve static files before setting global prefix
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
-  // Exclude static files from global prefix
   app.setGlobalPrefix('api', {
     exclude: [
-      // Exclude all static file routes
       '/images/(.*)',
       '/css/(.*)',
       '/public/(.*)',

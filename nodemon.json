@@ -1,0 +1,10 @@
+{
+  "watch": ["src", "public", "views"],
+  "ext": "ts,js,json,ejs,css,html,png,jpg,jpeg,gif,svg,ico",
+  "ignore": ["src/**/*.spec.ts", "dist/**/*"],
+  "exec": "nest build && cp -r public dist/ && cp -r views dist/ && node dist/main.js",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "delay": "1000"
+}

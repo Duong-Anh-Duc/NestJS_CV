@@ -1,7 +1,10 @@
+import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
 import { Analytics } from './src/analytics/analytics.entity';
 
-export const AppDataSource = new DataSource({
+config(); // Load environment variables
+
+const AppDataSource = new DataSource({
   type: 'postgres',
   host: process.env.POSTGRES_HOST || 'localhost',
   port: parseInt(process.env.POSTGRES_PORT) || 5432,

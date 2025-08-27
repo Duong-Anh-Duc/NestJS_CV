@@ -2,6 +2,7 @@ import { ExecutionContext, ForbiddenException, Injectable, UnauthorizedException
 import { Reflector } from "@nestjs/core";
 import { AuthGuard } from "@nestjs/passport";
 import { Request } from "express";
+import { ADMIN_ROLE } from "src/databases/sample";
 import { IS_PUBLIC_KEY, IS_PUBLIC_PERMISSION } from "./decorator/customize";
 
 @Injectable()
@@ -22,6 +23,16 @@ export class JwtAuthGuard extends AuthGuard('jwt'){
         const isSkipPermission = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_PERMISSION,
         [context.getHandler(), context.getClass()]
        )
+        
+        // Check if user is SUPER_ADMIN - bypass all permission checks
+        const userRole = user?.role?.name || user?.role;
+        if (userRole === ADMIN_ROLE) {
+            if(err || !user){
+                throw err || new UnauthorizedException("Token không hợp lệ!")
+            }
+            return user; // SUPER_ADMIN bypasses all permission checks
+        }
+
         const targetMethod = request.method
         const targetEndpoint : string = request.route?.path
         const permissions = user?.permissions ?? []

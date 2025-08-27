@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AnalyticsModule } from 'src/analytics/analytics.module';
 import { JobsController } from './jobs.controller';
 import { JobsService } from './jobs.service';
 import { Job, JobSchema } from './schemas/job.schema';
@@ -8,7 +9,7 @@ import { Job, JobSchema } from './schemas/job.schema';
   imports : [MongooseModule.forFeature([{
       name : Job.name,
       schema : JobSchema
-    }])],
+    }]), AnalyticsModule],
   controllers: [JobsController],
   providers: [JobsService],
   exports: [JobsService] 

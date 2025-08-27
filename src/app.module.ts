@@ -5,6 +5,8 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { Analytics } from './analytics/analytics.entity';
+import { AnalyticsModule } from './analytics/analytics.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
@@ -45,7 +47,7 @@ import { UsersModule } from './users/users.module';
         username: configService.get<string>('POSTGRES_USERNAME'),
         password: configService.get<string>('POSTGRES_PASSWORD'),
         database: configService.get<string>('POSTGRES_DATABASE'),
-        entities: [], 
+        entities: [Analytics], 
         synchronize: false,
         logging: true,
       }),
@@ -67,6 +69,7 @@ import { UsersModule } from './users/users.module';
     DatabasesModule,
     SubscribersModule,
     EmailModule,
+    AnalyticsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

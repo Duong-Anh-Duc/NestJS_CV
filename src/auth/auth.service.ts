@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import ms from 'ms';
+import { AnalyticsService } from 'src/analytics/analytics.service';
 import { RolesService } from 'src/roles/roles.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { IUser } from 'src/users/user.interface';
@@ -12,7 +13,8 @@ export class AuthService {
     constructor(private usersService : UsersService,
         private jwt : JwtService,
         private configService : ConfigService,
-        private rolesService : RolesService
+        private rolesService : RolesService,
+        private analyticsService: AnalyticsService
     ){}
     async validateUser(username : string, password : string) : Promise<any>{
         const user = await this.usersService.findOneByUserName(username).select('+password')
@@ -52,6 +54,18 @@ export class AuthService {
             httpOnly : true,
             maxAge : ms(this.configService.get<string>('JWT_REFRESH_EXPIRE')) 
         })
+        
+        // Track login event
+        await this.analyticsService.trackEvent({
+            event_type: 'USER_LOGIN',
+            user_id: _id,
+            metadata: {
+                email: email,
+                name: name,
+                role: userRole.name
+            }
+        });
+        
         return {
             access_token : this.jwt.sign(payload),
             refresh_token,

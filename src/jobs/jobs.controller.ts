@@ -22,8 +22,8 @@ export class JobsController {
   }
   @Public()
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.jobsService.findOne(id);
+  findOne(@Param('id') id: string, @User() user?: IUser) {
+    return this.jobsService.findOne(id, user);
   }
 
   @Patch(':id')
