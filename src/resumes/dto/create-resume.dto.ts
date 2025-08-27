@@ -1,10 +1,10 @@
-import { IsEnum, IsMongoId, IsNotEmpty, IsString, IsUrl } from "class-validator";
+import { IsEnum, IsMongoId, IsNotEmpty, IsString } from "class-validator";
 import mongoose from "mongoose";
 
 export class CreateResumeDto {
     @IsString()
     @IsNotEmpty()
-    @IsUrl()
+    //@IsUrl()
     url : string
     @IsNotEmpty()
     @IsEnum(["PENDING", "REVIEWING", "APPROVED", "REJECTED"])
@@ -20,7 +20,7 @@ export class CreateResumeDto {
 export class CreateUserCvDto {
     @IsString()
     @IsNotEmpty({message : 'url không được để trống'})
-    @IsUrl()
+    //@IsUrl()
     url : string
     @IsMongoId()
     @IsNotEmpty()

@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, ParseFilePipeBuilder, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ResponseMessage } from 'src/auth/decorater/customize';
+import { ResponseMessage } from 'src/auth/decorator/customize';
 import { FilesService } from './files.service';
 @Controller('files')
 export class FilesController {

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách việc làm hiện tại</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            color: #333;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .job-item {
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            background: #fafafa;
+        }
+        .job-title {
+            color: #007bff;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .company-name {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .job-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .detail-item {
+            font-size: 14px;
+        }
+        .detail-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .skills {
+            margin-top: 15px;
+        }
+        .skill-tag {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 3px 8px;
+            margin: 2px;
+            border-radius: 3px;
+            font-size: 12px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+        @media (max-width: 600px) {
+            .job-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Danh Sách Việc Làm Hiện Tại</h1>
+            <p>Tổng cộng: {{jobs.length}} vị trí đang tuyển dụng</p>
+        </div>
+
+        {{#each jobs}}
+        <div class="job-item">
+            <div class="job-title">{{this.name}}</div>
+            <div class="company-name">🏢 {{this.company.name}}</div>
+            
+            <div class="job-details">
+                <div class="detail-item">
+                    <span class="detail-label">💰 Lương:</span> {{this.salary}} VND
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📍 Địa điểm:</span> {{this.location}}
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">👥 Số lượng:</span> {{this.quantity}} người
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">📊 Cấp độ:</span> {{this.level}}
+                </div>
+            </div>
+
+            {{#if this.skills}}
+            <div class="skills">
+                <strong>🛠️ Kỹ năng:</strong>
+                {{#each this.skills}}
+                <span class="skill-tag">{{this}}</span>
+                {{/each}}
+            </div>
+            {{/if}}
+
+            <div style="margin-top: 10px; font-size: 12px; color: #888;">
+                📅 Hạn nộp: {{this.endDate}}
+            </div>
+        </div>
+        {{/each}}
+
+        <div class="footer">
+            <p>Email được gửi từ <strong>Job Portal System</strong></p>
+            <p>Cập nhật lúc: {{currentDate}}</p>
+        </div>
+    </div>
+</body>
+</html>

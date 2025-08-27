@@ -44,19 +44,19 @@ export class DatabasesService implements OnModuleInit {
     
             // 2️⃣ Khởi tạo Role nếu chưa có
             if (countRole === 0) {
-                const permissions = await this.permissionModel.find({}).select("_id");
+                const allPermissions = await this.permissionModel.find({}).select("_id");
                 await this.roleModel.insertMany([
                     {
                         name: ADMIN_ROLE,
                         description: "Admin có toàn bộ quyền",
                         isActive: true,
-                        permissions: permissions
+                        permissions: allPermissions
                     },
                     {
                         name: USER_ROLE,
                         description: "Người dùng thông thường",
                         isActive: true,
-                        permissions: []
+                        permissions: [] // Gán tất cả quyền cho NORMAL_USER, nếu muốn giới hạn thì lọc lại
                     }
                 ]);
                 console.log("✅ Đã khởi tạo Roles");
@@ -80,8 +80,8 @@ export class DatabasesService implements OnModuleInit {
                         role: adminRole?._id
                     },
                     {
-                        name: "I'm Hoi Dan IT",
-                        email: "hoidanit@gmail.com",
+                        name: "Dương Anh Đức",
+                        email: "ducytcg123456@gmail.com",
                         password: this.userService.hashPassWord(this.configService.get<string>('INIT_PASSWORD')),
                         age: 96,
                         gender: "MALE",

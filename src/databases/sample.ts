@@ -1,5 +1,5 @@
-export const ADMIN_ROLE = "SUPER ADMIN"
-export const USER_ROLE = "NORMAL USER"
+export const ADMIN_ROLE = "SUPER_ADMIN"
+export const USER_ROLE = "NORMAL_USER"
 export const INIT_PERMISSIONS = [
   // 🏷 Users Module
   { name: "Get Users", apiPath: "/api/v1/users", method: "GET", module: "USERS" },
@@ -8,6 +8,8 @@ export const INIT_PERMISSIONS = [
   { name: "Create User", apiPath: "/api/v1/users", method: "POST", module: "USERS" },
   { name: "Update User", apiPath: "/api/v1/users/:id", method: "PATCH", module: "USERS" },
   { name: "Delete User", apiPath: "/api/v1/users/:id", method: "DELETE", module: "USERS" },
+  // 👤 Auth Module
+  { name: "Get My Account", apiPath: "/api/v1/auth/account", method: "GET", module: "AUTH" },
   // 🏢 Companies Module
   { name: "Get Companies", apiPath: "/api/v1/companies", method: "GET", module: "COMPANIES" },
   { name: "Get Companies (Paginated)", apiPath: "/api/v1/companies?page=:current&pageSize=:limit&qs=:qs", method: "GET", module: "COMPANIES" },

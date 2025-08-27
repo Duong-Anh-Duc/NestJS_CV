@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, Injectable, NestInterceptor, } from "@nestjs/common";
 import { Reflector } from "@nestjs/core";
 import { map, Observable } from "rxjs";
-import { RESPONSE_MESSAGE } from "src/auth/decorater/customize";
+import { RESPONSE_MESSAGE } from "src/auth/decorator/customize";
 
 
 export interface Response<T> {

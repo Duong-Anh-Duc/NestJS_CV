@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { Public, ResponseMessage, User } from 'src/auth/decorater/customize';
+import { Public, ResponseMessage, User } from 'src/auth/decorator/customize';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { IUser } from './user.interface';
@@ -31,7 +31,7 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
-  @Patch()
+  @Patch(':id')
   @ResponseMessage("Update a User")
   update(@Body() updateUserDto: UpdateUserDto, @User() user : IUser) {
     return this.usersService.update(updateUserDto, user);

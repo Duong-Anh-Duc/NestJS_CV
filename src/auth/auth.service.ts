@@ -15,7 +15,6 @@ export class AuthService {
         private rolesService : RolesService
     ){}
     async validateUser(username : string, password : string) : Promise<any>{
-        
         const user = await this.usersService.findOneByUserName(username).select('+password')
         if(user){
             const isValid = await this.usersService.isValidPassWord(password, user.password)

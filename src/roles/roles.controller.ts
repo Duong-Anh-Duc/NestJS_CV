@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
-import { ResponseMessage, User } from 'src/auth/decorater/customize';
+import { ResponseMessage, User } from 'src/auth/decorator/customize';
 import { IUser } from 'src/users/user.interface';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
@@ -10,7 +10,7 @@ export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
 
   @Post()
-  @ResponseMessage('Create a new role')
+  @ResponseMessage('Thêm mới một role')
   create(@Body() createRoleDto: CreateRoleDto, @User() user : IUser) {
     return this.rolesService.create(createRoleDto, user);
   }
@@ -19,13 +19,13 @@ export class RolesController {
     return this.rolesService.update(id, updateRoleDto, user);
   }
   @Get()
-  @ResponseMessage('Fetch roles with paginate')
+  @ResponseMessage('Lấy danh sách role với phân trang')
   findAll(@Query('current') current : string, @Query('pageSize') pageSize : string, @Query() qs : string) {
     return this.rolesService.findAll(+current, +pageSize, qs);
   }
 
   @Get(':id')
-  @ResponseMessage('Fetch a role by id')
+  @ResponseMessage('Lấy thông tin một role')
   findOne(@Param('id') id: string) {
     return this.rolesService.findOne(id);
   }

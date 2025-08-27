@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseFilters } from '@nestjs/common';
-import { Public, ResponseMessage, User } from 'src/auth/decorater/customize';
-import { AllExceptionsFilter } from 'src/core/filter/http-exception.filter';
+import { Public, ResponseMessage, User } from 'src/auth/decorator/customize';
+import { AllExceptionsFilter } from 'src/common/filter/http-exception.filter';
 import { IUser } from 'src/users/user.interface';
 import { CompaniesService } from './companies.service';
 import { CreateCompanyDto } from './dto/create-company.dto';

@@ -1,20 +1,30 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from "@nestjs/mongoose";
+import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { CompaniesModule } from './companies/companies.module';
+import { DatabasesModule } from './databases/databases.module';
 import { FilesModule } from './files/files.module';
 import { JobsModule } from './jobs/jobs.module';
+import { EmailModule } from './mail/email.module';
 import { PermissionsModule } from './permissions/permissions.module';
 import { ResumesModule } from './resumes/resumes.module';
 import { RolesModule } from './roles/roles.module';
+import { SubscribersModule } from './subscribers/subscribers.module';
 import { UsersModule } from './users/users.module';
-import { DatabasesModule } from './databases/databases.module';
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
+    ThrottlerModule.forRoot({
+      ttl : 60,
+      limit : 1000,
+    }),
     MongooseModule.forRootAsync({
       imports : [ConfigModule],
       useFactory : async(configService : ConfigService) => ({
@@ -25,6 +35,21 @@ import { DatabasesModule } from './databases/databases.module';
         }
       }),
       inject : [ConfigService]
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'postgres',
+        host: configService.get<string>('POSTGRES_HOST'),
+        port: configService.get<number>('POSTGRES_PORT'),
+        username: configService.get<string>('POSTGRES_USERNAME'),
+        password: configService.get<string>('POSTGRES_PASSWORD'),
+        database: configService.get<string>('POSTGRES_DATABASE'),
+        entities: [], 
+        synchronize: false,
+        logging: true,
+      }),
+      inject: [ConfigService],
     }),
     ConfigModule.forRoot(
       {
@@ -40,6 +65,8 @@ import { DatabasesModule } from './databases/databases.module';
     PermissionsModule,
     RolesModule,
     DatabasesModule,
+    SubscribersModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

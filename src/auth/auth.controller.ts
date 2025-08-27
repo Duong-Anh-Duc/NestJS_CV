@@ -5,18 +5,19 @@ import { RolesService } from 'src/roles/roles.service';
 import { RegisterUserDto } from 'src/users/dto/create-user.dto';
 import { IUser } from 'src/users/user.interface';
 import { AuthService } from './auth.service';
-import { Public, ResponseMessage, User } from './decorater/customize';
+import { Public, ResponseMessage, User } from './decorator/customize';
 import { LocalAuthGuard } from './local-auth.guard';
+import { ThrottlerGuard } from '@nestjs/throttler';
 @Controller("auth")
 export class AuthController {
   constructor(
     private authService : AuthService,
     private rolesService : RolesService
   ) {
-   
   }
   @Public()
   @UseGuards(LocalAuthGuard)
+  @UseGuards(ThrottlerGuard)
   @Post('/login')
   @ResponseMessage("Login success")
   handleLogin(@Req() req, @Res({passthrough : true}) response : Response){

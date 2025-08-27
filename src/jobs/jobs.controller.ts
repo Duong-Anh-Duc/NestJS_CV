@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
-import { Public, ResponseMessage, User } from 'src/auth/decorater/customize';
+import { Public, ResponseMessage, User } from 'src/auth/decorator/customize';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { IUser } from 'src/users/user.interface';
 import { CreateJobDto } from './dto/create-job.dto';

@@ -30,6 +30,7 @@ export class CompaniesService {
     const totalItems =  await (await this.companyModel.find()).length
     const totalPages = Math.ceil(totalItems / defaultLimit)
     const result = await this.companyModel.find(filter).skip(offset).limit(defaultLimit).sort().populate(population).exec()
+    console.log(result)
     return {
       meta : {
         current : page, // trang hiện tại

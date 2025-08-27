@@ -35,7 +35,7 @@ export class RegisterUserDto {
 
     @IsNotEmpty({message : "Password không được để trống"})
     password : string;
-    @IsNotEmpty({message : "Age không được để trống"})
+    @IsNotEmpty({message : "Name không được để trống"})
     name : string;
     @IsNotEmpty({message : "Gender không được để trống"})
     gender : string;

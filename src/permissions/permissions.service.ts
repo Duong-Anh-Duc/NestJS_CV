@@ -41,7 +41,7 @@ export class PermissionsService {
     const offset = (current - 1) * limit
     const totalItems = await this.permissionModel.countDocuments()
     const totalPages = Math.ceil(totalItems / limit)
-    let result = await this.permissionModel.find(filter).skip(offset).limit(limit).populate(population).exec()
+    let result = await this.permissionModel.find(filter).skip(offset).limit(limit).populate(population).sort(sort as any).exec()
     return {
         meta : {
           current : current, // trang hiện tại
